@@ -52,41 +52,28 @@ const restaurant = {
 Short-circuiting in JavaScript is an evaluation behavior where logical operators stop checking conditions from left to right as soon as the final outcome of the expression is guaranteed
 */
 
-// ANCHOR: Logical OR (||) operator
+// ANCHOR: Nullish Coalescing (??) operator
 /* NOTE: 
-The (||) operator returns the first truthy value it encounters.
+The (??) operator only short-circuits and skips the right side if the left side is neither null nor undefined. It completely ignores other falsy values like 0 or ""
 */
-console.log(`===(OR) ===`);
-console.log(3 || 'Eph');
-console.log('' || 'Eph');
-console.log(true || 0);
-console.log(undefined || null);
 
-console.log(undefined || 0 || '' || 'Hello' || 23 || null);
+console.log(3 ?? 'Eph');
+console.log('' ?? 'Eph');
+console.log(true ?? 0);
+console.log(undefined ?? null);
+console.log(null ?? undefined);
+console.log(false ?? 0);
+console.log(0 ?? false);
+console.log(0 ?? '');
+console.log(null ?? '');
+console.log(undefined ?? '');
+console.log('' ?? undefined);
+console.log('' ?? null);
 
-const gustsTernary = restaurant.numGuests ? restaurant.numGuests : 100;
-console.log(gustsTernary);
+console.log(undefined ?? 0 ?? '' ?? 'Hello' ?? 23 ?? null);
 
-const gustsShortCircuitAND = restaurant.numGuests || 10;
-console.log(gustsShortCircuitAND);
-
-console.log(`===(AND) ===`);
-
-// ANCHOR: Logical AND (&&) operator
-/* NOTE: 
-The (&&) operator returns the first falsy value it encounters.
-*/
-console.log(0 && 'Eph');
-console.log(3 && 'Eph');
-console.log(true && 0);
-console.log(undefined && null);
-console.log(null && undefined);
-
-console.log('Eph' && 23 && undefined && 0 && '' && 'Hello' && 23 && null);
-
-if (restaurant.orderPizza) {
-  restaurant.orderPizza('mushrooms', 'spinach');
-}
-
-restaurant.orderPizza &&
-  restaurant.orderPizza('mushrooms', 'spinach', 'olives');
+restaurant.numGuests = 0;
+const guests = restaurant.numGuests || 10;
+console.log(guests);
+const gustsNullish = restaurant.numGuests ?? 10;
+console.log(gustsNullish);
