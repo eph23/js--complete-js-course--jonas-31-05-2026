@@ -52,3 +52,46 @@ The apply() method in JavaScript invokes a function while explicitly setting its
 const flightData = [583, 'George Cooper'];
 book.apply(swiss, flightData);
 console.log(swiss);
+
+// ANCHOR: bind Method
+/* NOTE: 
+The JavaScript bind() method creates a new function that, when executed, has its this keyword permanently set to a provided value. Unlike call() and apply(), bind() does not immediately execute the function; it extracts a copy to be invoked later.
+*/
+
+const bookEW = book.bind(eurowings);
+const bookLH = book.bind(lufthansa);
+const bookSW = book.bind(swiss);
+
+bookEW(23, 'Steven Williams');
+bookLH(23, 'Sarah Williams');
+bookSW(239, 'Thomas Williams');
+
+const bookEW23 = book.bind(eurowings, 23);
+bookEW23('Ephraim S.');
+bookEW23('Martha Cooper');
+console.log(eurowings);
+
+// ANCHOR: event listener
+lufthansa.planes = 300;
+lufthansa.buyPlane = function () {
+  this.planes++;
+  console.log(this.planes);
+  console.log(lufthansa);
+};
+
+document
+  .querySelector('.buy')
+  .addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
+
+// ANCHOR: Partial application
+const addTax = (tax, value) => value + value * tax;
+console.log(addTax(0.1, 200));
+
+const addVAT = addTax.bind(null, 0.23);
+console.log(addVAT(100));
+
+// Challenge
+
+const vat = rate => amount => amount * rate + amount;
+console.log(vat(0.5)(100));
+console.log(vat(0.5)(200));
